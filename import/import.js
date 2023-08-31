@@ -23,4 +23,4 @@ module.exports = {
   connection,
   authRoutes,
   productRoutes,
-};
+}; 
