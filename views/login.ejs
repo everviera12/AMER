@@ -32,17 +32,19 @@
     <i class="ri-user-line userIcon"></i>
 
     <!-- formulario  -->
-    <form action="" class="login__form">
-      <label for="">
-        Username <input type="text" id="userName">
+    <form action="auth" method="POST" class="login__form">
+      <label>
+        Username <input type="text" class="user_name" id="userName">
       </label>
 
-      <label for="">
-        Password<input type="password" id="passUser">
+      <label>
+        Password<input type="password" class="user_pass" id="passUser">
       </label>
 
-      <input type="submit" value="LOGIN" id="loginButton">
+      <input type="submit" value="LOGIN" class="btn__login" id="loginButton">
     </form>
+
+    <a href="register"> registrarse</a>
   </div>
 </body>
 

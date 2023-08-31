@@ -40,7 +40,7 @@
 
 /* login */
 .container__form {
-  background-color: #64fa70a6;
+  background-color: #1bfb4867;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   position: absolute;
@@ -75,7 +75,7 @@
 .login__form input[type="submit"] {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #36ff51;
+  background-color: #5cff71;
   color: #000000;
   border: none;
   border-radius: 5px;
@@ -84,6 +84,5 @@
 }
 
 .login__form input[type="submit"]:hover {
-  background-color: #21c400;
-  color: #ffffff;
+  background-color: #2bff00;
 }

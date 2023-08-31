@@ -9,9 +9,11 @@ const connection = mysql2.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.log("ERROR: ", err);
-    return  
+    console.log("\x1b[31m%s\x1b[0m", "ERROR: ", err);
+    return;
   } else {
-    console.log('connected');
+    console.log("\x1b[33m%s\x1b[0m", "connected");
   }
-})
+});
+
+module.exports = connection;
