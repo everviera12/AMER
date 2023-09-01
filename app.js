@@ -5,7 +5,7 @@ const bcryptjs = require("bcryptjs");        // bcryptjs para el cifrado de cont
 const session = require("express-session"); // express-session para gestionar sesiones de usuario en Express.
 
 
-const app = express();                    // Crea una instancia de la aplicación Express.
+const app = express();                     // Crea una instancia de la aplicación Express.
 dotenv.config({ path: "./env/.env" });    // Configura las variables de entorno desde el archivo .env.
 
 
@@ -32,54 +32,83 @@ app.use(session({
 }))
 
 
-// REGISTRO
+/* --------------------------------------------------------------
+-------------------RUTAS PARA MANEJAR LA LOGICA------------------
+-------------------------------------------------------------  */
+// {
+//   try {
+//     const registerRouter = require('./auth/register.router');
+//     app.use("/auth/register", registerRouter);
+//   } catch (error) {
+//     console.log(error);  
+// }
+// }
 
 app.post("/register", async (req, res) => {
-  const name = req.body.name
-  const last_name_1 = req.body.last_name_1
-  const last_name_2 = req.body.last_name_2
-  const user_name = req.body.user_name
-  const user_pass = req.body.user_pass
+  try {
+    const name = req.body.name;
+    const last_name_1 = req.body.last_name_1;
+    const last_name_2 = req.body.last_name_2;
+    const user_name = req.body.user_name;
+    const user_pass = req.body.user_pass;
 
-  let passHaash = await bcryptjs.hash(user_pass, 8);
+    let passHaash = await bcryptjs.hash(user_pass, 8);
 
-  const userData = { 
-    name: name, 
-    last_name_1: last_name_1, 
-    last_name_2: last_name_2,
-    user_name: user_name,
-    user_pass: passHaash,
-  };
+    const userData = {
+      name: name,
+      last_name_1: last_name_1,
+      last_name_2: last_name_2,
+      user_name: user_name,
+      user_pass: passHaash,
+    };
 
-  connection.query('INSERT INTO userData SET ?', userData, async(error, results) => {
-    if (error) {
-      console.log(error);
-    } else {
-      res.json(userData)
-      console.log('\x1b[33m Datos insertados: \x1b[0m', userData);
-    }
-  })
-})
+    connection.query(
+      "INSERT INTO userData SET ?",
+      userData,
+      async (error, results) => {
+        if (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error al procesar la solicitud" });
+        } else {
+          res.render("register", {
+            alert: true,
+            alertTitle: "Registro",
+            alertMessage: "Registro completo",
+            alertIcon: "success",
+          });
+          console.log("\x1b[34m Datos insertados: \x1b[0m", userData);
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al procesar la solicitud" });
+  }
+});
 
-// FIN DE REGISTRO
 
 /* --------------------------------------------------------------
------------------------ESTABLECIENDO RUTAS-----------------------
+---------------FIN RUTAS PARA MANEJAR LA LOGICA------------------
+-------------------------------------------------------------  */
+
+
+/* --------------------------------------------------------------
+---------------ESTABLECIENDO RUTAS DE LAS PAGINAS ---------------
 -------------------------------------------------------------  */
 
 // ruta de inicio
 app.get('/', (req, res) => {
-  res.render("login");
+  res.render("loginView"); // plantilla html llamada login.ejs
 });
 
 // ruta de registro
 app.get('/register', (req, res) => {
-  res.render("register");
+  res.render("registerView"); // plantilla html llamada register.ejs
 });
 
 // ruta de el inicio del software
 app.get('/index', (req, res) => {
-  res.render("index");
+  res.render("indexView"); // plantilla html llamada index.ejs
 });
 
 
@@ -89,6 +118,7 @@ app.get('/index', (req, res) => {
 
 
 const port = process.env.PORT || 3000; // Configura el puerto del servidor, utilizando el puerto 3000 como valor predeterminado.
+
 const ipLocal = "127.0.0.1"; //localhost
 // const ip = "192.168.50.225"; //Soul5G
 
