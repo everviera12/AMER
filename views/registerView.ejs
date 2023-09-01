@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- animate link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- link css -->
+  <link rel="stylesheet" href="resources/css/register.css">
+
+  <!-- remixicon link -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <title>Registro de usuarios</title>
+
+  <style></style>
+</head>
+
+<body>
+
+
+  <form class="animate__animated animate__fadeInLeft formulari" action="/register" method="POST">
+    <h1>Registro</h1>
+    <label for="name"> Nombre</label>
+    <input type="text" name="name" required>
+
+    <label for="last_name_1"> Apellido Paterno</label>
+    <input type="text" name="last_name_1" required>
+
+    <label for="last_name_2"> Apellido Materno</label>
+    <input type="text" name="last_name_2" required>
+
+    <label for="user_name"> Nombre de usuario</label>
+    <input type="text" name="user_name" required>
+
+    <label for="user_pass"> Contraseña</label>
+    <input type="text" name="user_pass" required>
+
+    <div class="controllers">
+      <a href="index" class="btn-cancel">index</a>
+      <input class="btn-save" type="submit" value="Save">
+    </div>
+  </form>
+
+
+  <!-- alertas de la libreria sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- script local -->
+  <% if(typeof alert !="undefined" ) { %>
+    <script>
+      Swal.fire({
+        title: '<%= alertTitle %>',
+        text: '<%= alertMessage %>',
+        icon: '<%= alertIcon %>',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        window.location.href = "/index"; // Utiliza 'href' para redirigir la página
+      })
+    </script>
+    <% } %>
+</body>
+
+</html>
