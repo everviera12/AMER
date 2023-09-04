@@ -1,1 +1,33 @@
-<h1>index</h1> 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <h1>index</h1>
+
+    <!-- alertas de la libreria sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- script local -->
+    <% if(typeof alert !="undefined" ) { %>
+      <script>
+        Swal.fire({
+          title: '<%= alertTitle %>',
+          text: '<%= alertMessage %>',
+          icon: '<%= alertIcon %>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          window.location.href = "/index"; // Utiliza 'href' para redirigir la página
+        })
+      </script>
+      <% } %>
+</body>
+
+</html>

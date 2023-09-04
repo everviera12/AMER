@@ -35,41 +35,38 @@ app.use(session({
 /* --------------------------------------------------------------
 -------------------RUTAS PARA MANEJAR LA LOGICA------------------
 -------------------------------------------------------------  */
-// {
-//   try {
-//     const registerRouter = require('./auth/register.router');
-//     app.use("/auth/register", registerRouter);
-//   } catch (error) {
-//     console.log(error);  
-// }
-// }
-
-app.post("/register", async (req, res) => {
+app.post("/register", async (req, res) => {             // espera solicitudes post del formulario registerView.ejs
   try {
-    const name = req.body.name;
-    const last_name_1 = req.body.last_name_1;
-    const last_name_2 = req.body.last_name_2;
-    const user_name = req.body.user_name;
-    const user_pass = req.body.user_pass;
+  // Extraer los datos del formulario de registro enviados a través de la solicitud POST.
+  const name = req.body.name;                  // Nombre del usuario
+  const last_name_1 = req.body.last_name_1;   // Primer apellido del usuario
+  const last_name_2 = req.body.last_name_2;   // Segundo apellido del usuario
+  const user_name = req.body.user_name;       // Nombre de usuario elegido
+  const user_pass = req.body.user_pass;       // Contraseña del usuario
 
-    let passHaash = await bcryptjs.hash(user_pass, 8);
+  // Genera un hash seguro de la contraseña del usuario antes de almacenarla en la base de datos.
+  let passHash = await bcryptjs.hash(user_pass, 8);
 
+  // se crea un objeto 'userData' con los datos del usuario.
     const userData = {
       name: name,
       last_name_1: last_name_1,
       last_name_2: last_name_2,
       user_name: user_name,
-      user_pass: passHaash,
+      user_pass: passHash,
     };
 
+    // Realiza una consulta para insertar los datos del usuario en la base de datos
     connection.query(
-      "INSERT INTO userData SET ?",
-      userData,
+      "INSERT INTO userData SET ?",  // consulta SQL para inesrtar los datos a la db
+      userData,                     //  datos del usuario a insertar
       async (error, results) => {
         if (error) {
+          // Envía una respuesta de error al cliente con un mensaje descriptivo
           console.log(error);
-          res.status(500).json({ message: "Error al procesar la solicitud" });
+          res.status(500).json({ message: "Error al procesar la solicitud" });  
         } else {
+          // alerta de registro exitoso
           res.render("register", {
             alert: true,
             alertTitle: "Registro",
@@ -82,9 +79,56 @@ app.post("/register", async (req, res) => {
     );
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error al procesar la solicitud" });
+    res.status(500).json({ message: "Error al procesar la solicitud" }); // manejo de errores al momento de insertar los datos
   }
 });
+
+// login
+app.post("/index", async (req, res) => {
+  try {
+    const user = req.body.user_name;
+    const pass = req.body.user_pass;
+
+    if (user && pass) {
+      connection.query("SELECT * FROM userData WHERE user_name = ?", [user], async (error, results) => {
+        if (error) {
+          console.error("Error en la consulta:", error);
+          res.status(500).send("Error en la consulta a la base de datos");
+          return;
+        }
+
+        if (results.length === 0 || !(await bcryptjs.compare(pass, results[0].user_pass))) {
+          res.render('loginView', {
+            alert: true,
+            alertTitle: "Error",
+            alertMessage: "USUARIO y/o PASSWORD incorrectas",
+            alertIcon:'error',
+            showConfirmButton: true,
+            timer: false,
+            ruta: '/',
+          })
+        } else {
+          // req.session.user_name = results[0].
+          res.render('indexView', {
+            alert: true,
+            alertTitle: "Conexión exitosa",
+            alertMessage: "¡LOGIN CORRECTO!",
+            alertIcon:'success',
+            showConfirmButton: false,
+            ruta: '/indexView'
+          })
+        }
+      });
+    } else {
+      // Datos faltantes
+      res.status(400).send("Usuario y contraseña son obligatorios");
+    }
+  } catch (error) {
+    console.error("Error en el manejo de la solicitud:", error);
+    res.status(500).send("Error en el servidor");
+  }
+});
+
 
 
 /* --------------------------------------------------------------
@@ -103,7 +147,7 @@ app.get('/', (req, res) => {
 
 // ruta de registro
 app.get('/register', (req, res) => {
-  res.render("registerView"); // plantilla html llamada register.ejs
+  res.render("registerView"); // plantilla html llamada registerView.ejs
 });
 
 // ruta de el inicio del software

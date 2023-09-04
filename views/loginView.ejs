@@ -32,20 +32,40 @@
     <i class="ri-user-line userIcon"></i>
 
     <!-- formulario  -->
-    <form action="auth" method="POST" class="login__form">
+    <form action="/index" method="POST" class="login__form">
       <label>
-        Username <input type="text" class="user_name" id="userName">
+        Username <input name="user_name" type="text" id="userName">
       </label>
 
       <label>
-        Password<input type="password" class="user_pass" id="passUser">
+        Password<input name="user_pass" type="password" id="passUser">
       </label>
 
       <input type="submit" value="LOGIN" class="btn__login" id="loginButton">
     </form>
 
-    <a href="register"> registrarse</a>
+    <!-- <a href="register"> registrarse</a> -->
   </div>
+
+
+
+  <!-- alertas de la libreria sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <% if (typeof alert !=="undefined" ) { %>
+    <script>
+      Swal.fire({
+        title: '<%= alertTitle %>',
+        text: '<%= alertMessage %>',
+        icon: '<%= alertIcon %>',
+        showConfirmButton: '<%= showConfirmButton %>',
+        timer: 15000,
+      }).then(() => {
+        window.location = '/<%= ruta %>'
+      })
+    </script>
+    <% } %>
+
 </body>
 
 </html>
