@@ -4,7 +4,7 @@ const register = express.Router();
 const connection = require("../db/db");
 const bcryptjs = require("bcryptjs");
 
-register.post("/register", async (req, res) => {
+register.post("../views/registerView.ejs", async (req, res) => {
   try {
     const name = req.body.name;
     const last_name_1 = req.body.last_name_1;
