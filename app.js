@@ -35,6 +35,7 @@ app.use(session({
 /* --------------------------------------------------------------
 -------------------RUTAS PARA MANEJAR LA LOGICA------------------
 -------------------------------------------------------------  */
+// registro
 app.post("/register", async (req, res) => {             // espera solicitudes post del formulario registerView.ejs
   try {
   // Extraer los datos del formulario de registro enviados a través de la solicitud POST.
@@ -67,7 +68,7 @@ app.post("/register", async (req, res) => {             // espera solicitudes po
           res.status(500).json({ message: "Error al procesar la solicitud" });  
         } else {
           // alerta de registro exitoso
-          res.render("register", {
+          res.render("registerView", {
             alert: true,
             alertTitle: "Registro",
             alertMessage: "Registro completo",
@@ -105,7 +106,7 @@ app.post("/index", async (req, res) => {
             alertIcon:'error',
             showConfirmButton: true,
             timer: false,
-            ruta: '/',
+            ruta: '',
           })
         } else {
           // req.session.user_name = results[0].
@@ -128,7 +129,6 @@ app.post("/index", async (req, res) => {
     res.status(500).send("Error en el servidor");
   } 
 });
- 
 
 
 /* --------------------------------------------------------------
