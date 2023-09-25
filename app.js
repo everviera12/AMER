@@ -113,7 +113,7 @@ app.post("/index", async (req, res) => {
           res.render('indexView', {
             alert: true,
             alertTitle: "Conexión exitosa",
-            alertMessage: "¡LOGIN CORRECTO!",
+            alertMessage: "Bienvenido",
             alertIcon:'success',
             showConfirmButton: false,
             ruta: '/indexView'
@@ -130,6 +130,12 @@ app.post("/index", async (req, res) => {
   } 
 });
 
+// log out
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/')
+  })
+})
 
 /* --------------------------------------------------------------
 ---------------FIN RUTAS PARA MANEJAR LA LOGICA------------------
